@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shake It Off - Meta</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: transparent; /* Fundo transparente para o Power BI */
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Botão estiloso que aparece se o som não tocar sozinho */
+        #btnPlay {
+            background-color: #e01b24; /* Um vermelho estilo "Rec" ou alerta */
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 800; /* Extra bold */
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: none; /* Começa escondido */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+        #btnPlay:hover {
+            background-color: #c9161f;
+            transform: scale(1.05);
+        }
+
+        /* Animação para chamar atenção */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(224, 27, 36, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(224, 27, 36, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(224, 27, 36, 0); }
+        }
+        
+        .pulsing {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="audioPlayer" src="shake.mp3" preload="auto"></audio>
+
+    <button id="btnPlay" class="pulsing" onclick="tocarSom()">♫ TOCAR META</button>
+
+    <script>
+        var audio = document.getElementById("audioPlayer");
+        var btn = document.getElementById("btnPlay");
+
+        function tocarSom() {
+            audio.play();
+            btn.style.display = "none"; // Esconde o botão após clicar
+        }
+
+        // Tenta o Autoplay ao carregar
+        window.onload = function() {
+            var promise = audio.play();
+
+            if (promise !== undefined) {
+                promise.then(_ => {
+                    console.log("Autoplay sucesso!");
+                }).catch(error => {
+                    console.log("Autoplay bloqueado. Botão ativado.");
+                    btn.style.display = "block"; // Mostra o botão se o browser bloquear
+                });
+            }
+        };
+    </script>
+</body>
+</html>
